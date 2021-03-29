@@ -2,6 +2,9 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UssdController;
+use Illuminate\Support\Facades\Mail;
+use PhpParser\Node\Expr\New_;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -20,4 +23,9 @@ Route::get('/serviceussd',[UssdController::class,'index'])->name('serviceussd');
 
 Route::group(['prefix' => 'admin'], function () {
     Voyager::routes();
+});
+Route::get('/test-permanence',function(){
+    Mail::to('louisbertson@gmail.com')->send(New TestMail());
+
+    return 'Working';
 });

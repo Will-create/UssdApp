@@ -1,9 +1,10 @@
 <?php
 
+use App\Mail\TestMail;
+use PhpParser\Node\Expr\New_;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UssdController;
-use Illuminate\Support\Facades\Mail;
-use PhpParser\Node\Expr\New_;
 
 /*
 |--------------------------------------------------------------------------

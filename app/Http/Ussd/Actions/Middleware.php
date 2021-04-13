@@ -66,7 +66,7 @@ class Middleware extends Action
         $codestart = substr($shortcode,0,5);
         $strlength = strlen($shortcode);
         $codeend = substr($shortcode,$strlength-1,$strlength);
-        if ($shortcode == "*500#") {
+        if ($shortcode == "*500#" || $shortcode = "500") {
             return Welcome::class;
         }
         if($codestart=='*500*' && $codeend =='#'){

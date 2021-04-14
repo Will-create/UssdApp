@@ -29,7 +29,7 @@ class Niveau2 extends State
         })->toArray();
         $this->record->set('tabs',$tab);
         $this->record->delete('precedent');
-        $this->record->set('precedent',$this->record->get('parent_n1'));
+        $this->record->set('precedent',$parent_id);
         $this->record->delete('parent_n1');
         // $this->menu->text($parent->nom)
         //            ->lineBreak(2)
@@ -73,7 +73,8 @@ class Niveau2 extends State
         ->custom(function ($argument) {
             $choix = false;
             if($argument == '*'){
-                $this->record->set("parent_n1",$this->record->get("precedent"));
+                $pre = $this->record->get('precedent');
+                $this->record->set("parent_n1",$pre);
                 $choix=true;
             }
             return $choix;

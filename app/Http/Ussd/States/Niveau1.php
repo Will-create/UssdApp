@@ -23,7 +23,7 @@ class Niveau1 extends State
         })->toArray();
         $this->record->set('tabs',$tab);
         $this->record->delete('precedent');
-        $this->record->set('precedent',$this->record->get('parent_n1'));
+        $this->record->set('precedent',$parent_id);
         $this->record->delete('parent_n1');
         // $this->menu->text($parent->nom)
         //            ->lineBreak(2)

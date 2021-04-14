@@ -97,7 +97,6 @@ class Menu
         $this->xmlmenu = $menu;
     }
     public function xmlmenu(array $params){
-
         $dom = new DOMDocument('1.0','utf-8');
         $root = $dom->createElement('response');
         $dom->appendChild($root);

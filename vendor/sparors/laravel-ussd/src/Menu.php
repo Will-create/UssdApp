@@ -1,21 +1,17 @@
 <?php
 
 namespace Sparors\Ussd;
-
 use DOMAttr;
 use DOMDocument;
-
 class Menu
 {
     const NUMBERING_ALPHABETIC_LOWER = 'alphabetic_lower';
     const NUMBERING_ALPHABETIC_UPPER = 'alphabetic_lower';
     const NUMBERING_EMPTY = 'empty';
     const NUMBERING_NUMERIC = 'numeric';
-
     const ITEMS_SEPARATOR_NO_LINE_BREAK = "";
     const ITEMS_SEPARATOR_LINE_BREAK = "\n";
     const ITEMS_SEPARATOR_DOUBLE_LINE_BREAK = "\n\n";
-
     const NUMBERING_SEPARATOR_NO_SPACE = "";
     const NUMBERING_SEPARATOR_SPACE = " ";
     const NUMBERING_SEPARATOR_DOUBLE_SPACE = "  ";
@@ -25,40 +21,102 @@ class Menu
     const NUMBERING_SEPARATOR_BRACKET = ")";
     const NUMBERING_SEPARATOR_BRACKET_PLUS_SPACE = ") ";
     const NUMBERING_SEPARATOR_BRACKET_PLUS_DOUBLE_SPACE = ")  ";
-
     /** @var string */
     protected $menu;
-    
     /** @var string */
     protected $xmlmenu;
-        
-    
+    protected function replaceSpecialChar($str) {
+        $ch0 = array( 
+                "œ"=>"oe",
+                "Œ"=>"OE",
+                "æ"=>"ae",
+                "Æ"=>"AE",
+                "À" => "A",
+                "Á" => "A",
+                "Â" => "A",
+                "à" => "A",
+                "Ä" => "A",
+                "Å" => "A",
+                "à" => "a",
+                "á" => "a",
+                "â" => "a",
+                "à" => "a",
+                "ä" => "a",
+                "å" => "a",
+                "Ç" => "C",
+                "ç" => "c",
+                "Ð" => "D",
+                "È" => "E",
+                "É" => "E",
+                "Ê" => "E",
+                "Ë" => "E",
+                "è" => "e",
+                "é" => "e",
+                "ê" => "e",
+                "ë" => "e",
+                "'" => " ",
+                "\"" => "*",
+                "..." => ". . .",
+                "Ì" => "I",
+                "Í" => "I",
+                "Î" => "I",
+                "Ñ" => "N",
+                "Ò" => "O",
+                "Ó" => "O",
+                "Ô" => "O",
+                "Õ" => "O",
+                "Ö" => "O",
+                "Ø" => "O",
+                "ò" => "o",
+                "ó" => "o",
+                "ô" => "o",
+                "õ" => "o",
+                "ö" => "o",
+                "ø" => "o",
+                "ð" => "o",
+                "Ù" => "U",
+                "Ú" => "U",
+                "Û" => "U",
+                "Ü" => "U",
+                "ù" => "u",
+                "ú" => "u",
+                "û" => "u",
+                "ü" => "u",
+                "Ý" => "Y",
+                "?" => "Y",
+                "ý" => "y",
+                "ÿ" => "y",
+                );
+            $str = strtr($str,$ch0);
+            return $str;
+        }
     public function __construct($menu = '')
     {
         $this->menu = $menu;
         $this->xmlmenu = $menu;
     }
     public function xmlmenu(array $params){
+
         $dom = new DOMDocument('1.0','utf-8');
         $root = $dom->createElement('response');
         $dom->appendChild($root);
-        $screen_type = $dom->createElement('screen_type',$params['screen_type']);
+        $screen_type = $dom->createElement('screen_type',$this->replaceSpecialChar($params['screen_type']));
         $root->appendChild($screen_type);
-        $text = $dom->createElement('text',$params['text']);
+        $text = $dom->createElement('text',$this->replaceSpecialChar($params['text']));
         $root->appendChild($text);
-        $back_link = $dom->createElement('back_link',$params['back_link']);
+        $back_link = $dom->createElement('back_link',$this->replaceSpecialChar($params['back_link']));
         $root->appendChild($back_link);
-        $home_link = $dom->createElement('home_link',$params['home_link']);
+        $home_link = $dom->createElement('home_link',$this->replaceSpecialChar($params['home_link']));
         $root->appendChild($home_link);
-        $session_op = $dom->createElement('session_op',$params['session_op']);
+        $session_op = $dom->createElement('session_op',$this->replaceSpecialChar($params['session_op']));
         $root->appendChild($session_op);
-        $screen_id = $dom->createElement('screen_id',$params['screen_id']);
+        $screen_id = $dom->createElement('screen_id',$this->replaceSpecialChar($params['screen_id']));
         $root->appendChild($screen_id);
         $options = $dom->createElement('options');
         if($params['list']){
             for ($i=0; $i < count($params['list']) ; $i++) { 
                 $numero= $i+1;
-                $option = $dom->createElement('option',$params['list'][$i]);
+                $option = $dom->createElement('option',$this->replaceSpecialChar($params['list'][$i]));
                 $options->appendChild($option);
                 $attr = new DOMAttr('choice',$numero);
                 $option->setAttributeNode($attr);
